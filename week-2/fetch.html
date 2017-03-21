@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Fetch</title>
+	<style>
+		body {
+			font-size: calc(100% + .25vw);
+			font-family: 'Georgia', serif;
+			line-height: 1.45;
+		}
+
+		article {
+			padding: 6vmin 3vmax;
+		}
+
+		article + article {
+			padding-top: 0;
+		}
+
+		h1, p {
+			margin-bottom: 1.5em;
+			margin-top: 0;
+			max-width: 35em;
+		}
+
+		.error {
+			background-color: hotpink;
+			padding: 2vmin 2vmax;
+		}
+
+		.error span {
+			font-size: 0.8em;
+		}
+
+		img {
+			display: block;
+			max-width: 100%;
+			height: auto;
+			margin-bottom: 1.5em;
+		}
+
+		code {
+			background: #eee;
+			padding: .1em .25em;
+		}
+	</style>
+</head>
+<body>
+
+	<article>
+		<h1>Fetch</h1>
+		<p>Deze pagina onderzoekt de browser compatibility van de <code>fetch</code> API, met mogelijke fallbacks.</p>
+		<p>Er wordt een kunstwerk uit de Rijksmuseum API gehaald met een <code>fetch</code>. Als fallback gebruik ik een <code>XMLHttpRequest</code>.</p>
+	</article>
+
+	<article data-container="artwork" data-object-id="SK-C-211">
+		<p>Bekijk <a href="https://www.rijksmuseum.nl/nl/collectie/SK-C-211">de Molen bij Wijk bij Duurstede</a> op de website van het Rijksmuseum.</p>
+	</article>
+
+	<article data-container="artwork" data-object-id="SK-A-3841">
+		<p>Bekijk <a href="https://www.rijksmuseum.nl/nl/collectie/SK-A-3841">de Dans om het Gouden Kalf</a> op de website van het Rijksmuseum.</p>
+	</article>
+
+	<article data-container="artwork" data-object-id="SK-A-1718">
+		<p>Bekijk het <a href="https://www.rijksmuseum.nl/nl/collectie/SK-A-1718">Winterlandschap met schaatsers</a> op de website van het Rijksmuseum.</p>
+	</article>
+
+	<script>
+		var apiKey = 'JrLJKjKw';
+		var endpoint = 'https://www.rijksmuseum.nl/api/nl/collection/';
+		var options = '&format=json';
+
+		var data = {
+			get: function(artwork) {
+				if (this.supportsFetch()) {
+					this.fetch(artwork);
+					return;
+				}
+
+				this.xmlhttp(artwork);
+			},
+			supportsFetch: function() {
+				if ('fetch' in window) {
+					return true;
+				}
+
+				return false;
+			},
+			fetch: function(objectId) {
+				var url = endpoint + objectId + '?key=' + apiKey + options;
+				fetch(url).then(function(data) {
+					return data.json();
+				}).then(function(json) {
+					this.append(json);
+				}.bind(this)).catch(function(error) {
+					this.error(error);
+				}.bind(this));
+			},
+			xmlhttp: function(objectId) {
+				var url = endpoint + objectId + '?key=' + apiKey + options;
+				var request = new XMLHttpRequest();
+
+				request.onerror = function(event) {
+					this.error('', objectId);
+				}.bind(this);
+
+				request.onload = function(event) {
+					// JSON.parse() is not supported in < IE 7.
+					var json = JSON.parse(request.response);
+					this.append(json);
+				}.bind(this);
+
+				request.open('GET', url);
+				request.send();
+			},
+			append: function(json) {
+				// querySelector combined with custom attributes is not supported in < IE8.
+				var article = document.querySelector('[data-object-id="'+json.artObject.objectNumber+'"]');
+				// insertAdjacentHTML is supported by >= IE6.
+				article.insertAdjacentHTML('afterbegin',
+					'<h1>'+ json.artObject.longTitle +'</h1><img src="' + json.artObject.webImage.url + '" alt="'+ json.artObject.label.description +'" />');
+			},
+			error: function(error, objectId) {
+				// querySelector combined with custom attributes is not supported in < IE8.
+				var article = document.querySelector('[data-object-id="'+ objectId +'"]');
+				article.insertAdjacentHTML('beforeend', '<p class="error">Something is slightly amiss. Please try to refresh the page.<br><span>' + error + '</span></p>');
+			}
+		};
+
+		// Get all the articles from the DOM
+		var articles = document.querySelectorAll('[data-object-id]');
+		for (var i = 0; i < articles.length; i++) {
+			data.get(articles[i].dataset.objectId);
+		}
+	</script>
+</body>
+</html>
