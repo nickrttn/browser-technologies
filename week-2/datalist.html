@@ -24,6 +24,10 @@
 			padding: 5em 3em;
 		}
 
+		footer {
+			margin-top: 3em;
+		}
+
 		nav {
 			padding: 0 3em 5em;
 		}
@@ -56,6 +60,7 @@
 			font-size: .9em;
 			max-width: 25em;
 			color: #777;
+			margin-bottom: .5em;
 		}
 
 	</style>
@@ -68,19 +73,22 @@
 		<p>Voor dit <abbr lang="en" title="progressive enhancement">PE</abbr> patroon wordt alleen <abbr title="HyperText Markup Language">HTML</abbr> gebruikt. Het gaat er van uit dat browsers elementen die ze niet kennen negeren, of interpreteren als element zonder semantieke betekenis, zoals een <code>&lt;div&gt;</code>. Ín het <code>&lt;datalist&gt;</code> is een <code>&lt;select&gt;</code> gebruikt, die alleen zichtbaar is als de browser <code>&lt;datalist&gt;</code> niet kent.</p>
 		<p>Zowel <code>&lt;datalist&gt;</code> als <code>&lt;select&gt;</code> werken enkel met <code>&lt;option&gt;</code> elementen. De browsers die <code>&lt;datalist&gt;</code> wel ondersteunen negeren het <code>&lt;select&gt;</code> element en gebruiken die <code>&lt;option&gt;</code> elementen die daar in staan.</p>
 
-		<label for="feeling">How do you feel about this <abbr lang="en" title="progressive enhancement">PE</abbr> pattern?</label>
-		<datalist id="feelings">
-			<select name="feeling">
-				<option selected disabled>Pick one</option>
-				<option value="great">This is great and I feel great</option>
-				<option value="inbetween">I'm think I've got some pointers</option>
-				<option value="horrible">No one should ever have to see this</option>
-				<option value="indescribable">Indescribable</option>
-			</select>
-			If indescribable, please try anyway:
-		</datalist>
-		<input id="feeling" name="feeling" list="feelings">
-		<p class="help">Feel free to pick a feeling from the predefined list, or describe them yourself in detail.</p>
+		<form lang="en">
+			<label for="feeling">How do you feel about this <abbr title="progressive enhancement">PE</abbr> pattern?</label>
+			<datalist id="feelings">
+				<select name="feeling">
+					<option selected disabled>Pick one</option>
+					<option value="great">This is great and I feel great</option>
+					<option value="inbetween">I'm think I've got some pointers</option>
+					<option value="horrible">No one should ever have to see this</option>
+					<option value="indescribable">Indescribable</option>
+				</select>
+				If indescribable, please try anyway:
+			</datalist>
+			<input id="feeling" name="feeling" list="feelings">
+			<p class="help">Feel free to pick a feeling from the predefined list, or describe them yourself in detail.</p>
+			<button type="submit">Send</button>
+		</form>
 
 		<footer>
 			<h2>Bronnen</h2>
