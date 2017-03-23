@@ -8,7 +8,7 @@
 	<style>
 		html {
 			font-size: 112.5%;
-			font-size: calc(100% + .25vw);
+			/*font-size: calc(100% + .25vw);*/
 			box-sizing: border-box;
 		}
 
@@ -110,20 +110,25 @@
 			},
 			xmlhttp: function(objectId) {
 				var url = endpoint + objectId + '?key=' + apiKey + options;
-				var request = new window.XDomainRequest() || new XMLHttpRequest();
+				var request = window.XDomainRequest ? new window.XDomainRequest() : new XMLHttpRequest();
 
 				request.onerror = function(event) {
 					this.error('', objectId);
 				}.bind(this);
 
-				request.onload = function(event) {
+				request.onload = function() {
 					// JSON.parse() is not supported in < IE 7.
-					var json = JSON.parse(request.response);
+					console.log(request);
+					var json = JSON.parse(request.responseText);
 					this.append(json);
 				}.bind(this);
 
-				request.open('GET', url);
-				request.send();
+				request.open('get', url);
+
+				// Nasty IE9 fix
+				setTimeout(function() {
+					request.send();
+				}, 0);
 			},
 			append: function(json) {
 				// querySelector combined with custom attributes is not supported in < IE8.
