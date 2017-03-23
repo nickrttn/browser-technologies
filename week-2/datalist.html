@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>The datalist element</title>
+	<style>
+		html {
+			font-size: 112.5%;
+			box-sizing: border-box;
+		}
+
+		*, *::before, *::after {
+			box-sizing: inherit;
+		}
+
+		body {
+			font-family: 'Georgia', serif;
+			line-height: 1.45;
+		}
+
+		article {
+			padding: 5em 3em;
+		}
+
+		h1, p {
+			margin-bottom: 1.5em;
+			margin-top: 0;
+			max-width: 35em;
+		}
+
+		code {
+			background: #eee;
+			padding: .1em .25em;
+		}
+
+		input, select {
+			font-size: inherit;
+			font-family: Georgia, serif;
+			padding: .25em;
+			margin-bottom: .5em;
+		}
+
+		label {
+			display: block;
+			font-weight: 800;
+			margin-bottom: .5em;
+		}
+
+		.help {
+			font-size: .9em;
+			max-width: 25em;
+			color: #777;
+		}
+
+	</style>
+</head>
+<body>
+
+	<article>
+		<h1>Het <code>&lt;datalist&gt;</code> element</h1>
+		<p>Deze pagina onderzoekt de browser compatibility van het <code>&lt;datalist&gt;</code> element.</p>
+		<p>Voor dit <abbr lang="en" title="progressive enhancement">PE</abbr> patroon wordt alleen <abbr title="HyperText Markup Language">HTML</abbr> gebruikt. Het gaat er van uit dat browsers elementen die ze niet kennen negeren, of interpreteren als element zonder semantieke betekenis, zoals een <code>&lt;div&gt;</code>. Ín het <code>&lt;datalist&gt;</code> is een <code>&lt;select&gt;</code> gebruikt, die alleen zichtbaar is als de browser <code>&lt;datalist&gt;</code> niet kent.</p>
+		<p>Zowel <code>&lt;datalist&gt;</code> als <code>&lt;select&gt;</code> werken enkel met <code>&lt;option&gt;</code> elementen. De browsers die <code>&lt;datalist&gt;</code> wel ondersteunen negeren het <code>&lt;select&gt;</code> element en gebruiken die <code>&lt;option&gt;</code> elementen die daar in staan.</p>
+
+		<label for="feeling">How do you feel about this <abbr lang="en" title="progressive enhancement">PE</abbr> pattern?</label>
+		<datalist id="feelings">
+			<select name="feeling">
+				<option selected disabled>Pick one</option>
+				<option value="great">This is great and I feel great</option>
+				<option value="inbetween">I'm think I've got some pointers</option>
+				<option value="horrible">No one should ever have to see this</option>
+				<option value="indescribable">Indescribable</option>
+			</select>
+			If indescribable, please try anyway:
+		</datalist>
+		<input id="feeling" name="feeling" list="feelings">
+		<p class="help">Feel free to pick a feeling from the predefined list, or describe them yourself in detail.</p>
+
+		<footer>
+			<h2>Bronnen</h2>
+			<ul>
+				<li><a href="https://adactio.com/journal/4272/">The design of datalist – Jeremy Keith</a></li>
+				<li><a href="http://caniuse.com/#search=datalist">Can I use _____?</a></li>
+				<li><a href="https://html.spec.whatwg.org/#the-datalist-element">WhatWG datalist element</a></li>
+				<li><a href="https://leaverou.github.io/html-secrets">HTML Secrets – Lea Verou</a></li>
+			</ul>
+		</footer>
+	</article>
+</body>
+</html>
