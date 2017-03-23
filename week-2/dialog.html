@@ -86,7 +86,6 @@
 			isSupported: function() {
 				var testdialog=document.createElement("dialog");
 				this.supported = Boolean(testdialog.show);
-				console.log(this.supported);
 			},
 			init: function() {
 				this.isSupported();
@@ -97,37 +96,29 @@
 					this.dialog.className = 'closed';
 				}
 
-				this.open = document.querySelector('[href="#dialog"]');
-				this.open.addEventListener('click', function() {
-					if (this.supported) {
-						console.log(this.supported);
-						this.show();
-						return;
-					}
-
-					this.dialog.className = 'open';
-				}.bind(this));
-
-				this.close = document.querySelector('#dialog button[type="cancel"]');
-				this.close.addEventListener('click', function() {
-					if (this.supported) {
-						this.close();
-						return;
-					}
-
-					this.dialog.className = 'closed';
-				}.bind(this));
+				this.openToggle = document.querySelector('[href="#dialog"]');
+				this.openToggle.addEventListener('click', function() { this.show(); }.bind(this));
+				this.closeToggle = document.querySelector('#dialog button[type="cancel"]');
+				this.closeToggle.addEventListener('click', function() { this.close(); }.bind(this));
 			},
 			show: function() {
-				this.dialog.showModal();
+				if (this.supported) {
+					console.log('show');
+					this.dialog.showModal();
+					return;
+				}
+				this.dialog.className = 'open';
 			},
 			close: function() {
-				this.dialog;
+				if (this.supported) {
+					this.dialog.close();
+					return;
+				}
+				this.dialog.className = 'closed';
 			}
 		}
 
 		dialog.init();
-
 	</script>
 </body>
 </html>
