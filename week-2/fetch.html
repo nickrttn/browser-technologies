@@ -110,7 +110,7 @@
 			},
 			xmlhttp: function(objectId) {
 				var url = endpoint + objectId + '?key=' + apiKey + options;
-				var request = new XMLHttpRequest();
+				var request = new window.XDomainRequest() || new XMLHttpRequest();
 
 				request.onerror = function(event) {
 					this.error('', objectId);
