@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>The dialog element</title>
+	<style>
+		html {
+			font-size: 112.5%;
+			box-sizing: border-box;
+		}
+
+		*, *::before, *::after {
+			box-sizing: inherit;
+		}
+
+		body {
+			font-family: 'Georgia', serif;
+			line-height: 1.45;
+		}
+
+		article {
+			padding: 5em 3em;
+		}
+
+		h1, p {
+			margin-bottom: 1.5em;
+			margin-top: 0;
+			max-width: 35em;
+		}
+
+		code {
+			background: #eee;
+			padding: .1em .25em;
+		}
+
+		#dialog {
+			border: 4px solid black;
+			padding: 1em;
+		}
+
+		#dialog.closed {
+			display: none;
+		}
+
+		#dialog.open {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+
+	<article>
+		<h1>Het <code>&lt;dialog&gt;</code> element</h1>
+		<p>Deze pagina onderzoekt de browser compatibility van het <code>&lt;dialog&gt;</code> element.</p>
+		<p>Dit is de meest naïeve implementatie van het openen van een dialog in alle browsers: in de content, direct na de button die het element schakelt.</p>
+		<p>Het <code>&lt;dialog&gt;</code> element is complex. Het element zelf heeft een drietal <span lang="en">methods</span>: <code>show()</code>, <code>showModal()</code> en <code>close()</code>. Daarnaast heeft het element een pseudo <code>::backdrop</code>-element, dat gestijld kan worden. <code>&lt;dialog&gt;</code> krijgt bovendien automatisch focus, in ondersteunende browsers. Er kan mee geïnteracteerd worden door een <code>form</code> toe te voegen met <code>method="dialog"</code>.</p>
+		<p>Bij het implementeren van een <code>&lt;dialog&gt;</code> is het belangrijk om na te denken over de functionaliteit die je de gebruiker wilt bieden. Moet het echt een pop up zijn, of een waarschuwing? Misschien is een <code>alert()</code> of <code>confirm()</code> een goede oplossing. Is het bedoeld om de huidige content te ondersteunen? Misschien is het dan een betere oplossing om de content van de <code>&lt;dialog&gt;</code> inline te laten zien.</p>
+
+		<a href="#dialog">Openen</a>
+
+		<dialog id="dialog">
+			<p>Dit is een dialoog.</p>
+
+			<form method="dialog">
+				<button type="cancel">Sluiten</button>
+			</form>
+		</dialog>
+
+		<footer>
+			<h2>Sources</h2>
+			<ul>
+				<li><a href="http://thenewcode.com/957/Native-Modal-Windows-in-HTML5-Using-the-dialog-Element">Native Modal Windows in HTML5: Using the dialog Element</a></li>
+				<li><a href="http://caniuse.com/#search=dialog">Can I use?</a></li>
+				<li><a href="https://github.com/GoogleChrome/dialog-polyfill">GoogleChrome/dialog-polyfill</a></li>
+				<li><a href="https://html.spec.whatwg.org/multipage/forms.html#the-dialog-element">WhatWG Dialog element</a></li>
+				<li><a href="https://html.spec.whatwg.org/multipage/forms.html#attr-fs-method">WhatWG Form submission</a></li>
+			</ul>
+		</footer>
+	</article>
+
+	<script>
+
+		var dialog = {
+			isSupported: function() {
+				var testdialog=document.createElement("dialog");
+				this.supported = Boolean(testdialog.show);
+				console.log(this.supported);
+			},
+			init: function() {
+				this.isSupported();
+
+				this.dialog = document.getElementById('dialog');
+
+				if (!this.supported) {
+					this.dialog.className = 'closed';
+				}
+
+				this.open = document.querySelector('[href="#dialog"]');
+				this.open.addEventListener('click', function() {
+					if (this.supported) {
+						console.log(this.supported);
+						this.show();
+						return;
+					}
+
+					this.dialog.className = 'open';
+				}.bind(this));
+
+				this.close = document.querySelector('#dialog button[type="cancel"]');
+				this.close.addEventListener('click', function() {
+					if (this.supported) {
+						this.close();
+						return;
+					}
+
+					this.dialog.className = 'closed';
+				}.bind(this));
+			},
+			show: function() {
+				this.dialog.showModal();
+			},
+			close: function() {
+				this.dialog;
+			}
+		}
+
+		dialog.init();
+
+	</script>
+</body>
+</html>
