@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Viewport-relative units</title>
+	<style>
+		html {
+			font-size: 112.5%;
+			box-sizing: border-box;
+		}
+
+		*, *::before, *::after {
+			box-sizing: inherit;
+		}
+
+		body {
+			font-family: 'Georgia', serif;
+			line-height: 1.45;
+		}
+
+		article {
+			padding: 5em 3em 1.5em;
+		}
+
+		h1, p {
+			margin-bottom: 1.5em;
+			margin-top: 0;
+			max-width: 35em;
+		}
+
+		code, pre {
+			background: #eee;
+			padding: .1em .25em;
+		}
+
+		pre {
+			padding: .25em 2em 1em;
+			max-width: 35em;
+		}
+
+		pre code {
+			padding: 0;
+		}
+
+		.viewport-relative {
+			min-width: 30%;
+			min-width: 30vmax;
+			min-height: 30%;
+			min-height: 30vm;
+			min-height: 30vmin;
+			max-width: 70%;
+			max-width: 70vmax;
+			max-height: 20em;
+			max-height: 70vm;
+			max-height: 70vmin;
+			background-color: palegreen;
+			text-align: center;
+			padding: 0 5%;
+			padding: 0 5vw;
+			margin-left: 3em;
+		}
+
+		.viewport-relative p {
+			padding: 2em 0;
+		}
+	</style>
+</head>
+<body>
+
+	<article>
+		<h1 lang="en">Viewport-relative units: <code>vw, vh, vmin &amp; vmax (and vm)</code></h1>
+		<p>Deze pagina onderzoekt de werking van <em lang="en">viewport-relative units</em> in verschillende browsers.</p>
+		<p><span lang="en">Viewport-relative units</span> worden <a href="http://caniuse.com/#search=vw">ondersteund</a> door <abbr title="Internet Explorer 9">IE9</abbr> en hoger, Edge, Firefox 19+, Chrome 20+, Safari 6+, iOS Safari 6.1+, Opera 15+ en Android Browser 4.4+. Opera Mini ondersteunt deze <span lang="en">units</span> <em>niet</em>.</p>
+		<p><abbr title="Internet Explorer 10">IE10</abbr>, <abbr title="Internet Explorer 11">IE11</abbr> en de Edge browser ondersteunen <code>vmax</code> niet. <abbr title="Internet Explorer 9">IE9</abbr> doet dat wel, maar ondersteunt <code>vmin</code> niet. In plaats daarvan kun je <code>vm</code> gebruiken. Voor browsers die geen <span lang="en">viewport-relative units</span> ondersteunen kan een fallback gebruikt worden voor de <abbr title="Cascading Style Sheets">CSS</abbr> <span lang="en">attributes</span> waarin <span lang="en">viewport-relative units</span> gebruikt worden.</p>
+		<p>A fallback that would work on most browsers would look like:</p>
+<pre><code>
+.viewport-relative {
+	min-width: 30%;
+	min-width: 30vmax;
+	min-height: 30%;
+	min-height: 30vm;
+	min-height: 30vmin;
+	max-width: 70%;
+	max-width: 70vmax;
+	max-height: 20em;
+	max-height: 70vm;
+	max-height: 70vmin;
+}
+</code></pre>
+<p>I'm using <code>min-width/height</code> and <code>max-width/height</code> here so that container can adapt to their content within those bounds.</p>
+	</article>
+
+	<div class="viewport-relative">
+		<p>De grootte van deze <code>div</code> is relatief aan de <span lang="en">viewport</span>.</p>
+	</div>
+
+	<script>
+	</script>
+</body>
+</html>
