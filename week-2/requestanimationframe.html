@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>requestAnimationFrame</title>
+	<style>
+		body {
+			font-size: calc(100% + .25vw);
+			font-family: 'Georgia', serif;
+			line-height: 1.45;
+		}
+
+		article {
+			padding: 6vmin 3vmax 3vmin;
+		}
+
+		article + article {
+			padding-top: 0;
+		}
+
+		h1, p {
+			margin-bottom: 1.5em;
+			margin-top: 0;
+			max-width: 35em;
+		}
+
+		code, pre {
+			font-family: 'Consolas', 'Monaco', monospace;
+			font-size: .85em;
+		}
+
+		.error {
+			background-color: hotpink;
+			padding: 2vmin 2vmax;
+		}
+
+		.error span {
+			font-size: 0.8em;
+		}
+
+		main {
+			position: relative;
+			overflow-x: visible;
+			padding: 0 3vmax;
+		}
+
+		img {
+			position: absolute;
+			max-width: 15em;
+			height: auto;
+		}
+
+		code {
+			background: #eee;
+			padding: .1em .25em;
+		}
+	</style>
+</head>
+<body>
+	<article>
+		<h1><code>requestAnimationFrame</code></h1>
+		<p>Deze pagina onderzoekt de browser compatibility van <code>requestAnimationFrame</code>, met mogelijke fallbacks.</p>
+		<p>Het logo van de minor wordt van links naar rechts en weer terug over het scherm geanimeerd.</p>
+		<p><code>requestAnimationFrame</code> (en CSS Transforms) werken op > IE9. Als de browser geen <code>requestAnimationFrame</code> ondersteunt, wordt teruggevallen op <code>setTimeout</code>. Daarbij wordt de <code>left</code> CSS attribute dan geanimeerd, in plaats van een <code>transform: translateX();</code>. Het grote nadeel hiervan is dat het een zwaardere animatie is, voor oudere browsers (en waarschijnlijk ook oudere hardware).</p>
+	</article>
+
+	<main>
+		<img data-animate="true" src="images/force.png" alt="The logo of the Web Development Minor of the University of Applied Sciences Amsterdam. Vaguely resembles a Zelda tri-force emblem.">
+	</main>
+
+	<script>
+		// https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+		window.requestAnimFrame = (function(){
+		  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function(callback) {
+				window.setTimeout(callback, 1000 / 60);
+			};
+		})();
+
+		var element = document.querySelector('[data-animate="true"]');
+		element.dataset.position = element.getBoundingClientRect().left;
+		var ltr = true;
+
+		function step() {
+			var newPosition;
+			var position = parseInt(element.dataset.position, 10);
+
+			if (position > window.innerWidth + 100) {
+				ltr = false;
+			} else if (position < 0 - element.clientWidth - 100) {
+				ltr = true;
+			}
+
+			if (ltr) {
+				newPosition = position + 12;
+			} else {
+				newPosition = position - 12;
+			}
+
+			element.style.transform = 'translateX(' + newPosition + 'px)';
+			element.dataset.position = newPosition;
+		}
+
+		function stepFallback() {
+			var newPosition;
+			var position = parseInt(element.getAttribute('data-position'), 10);
+
+			if (position > window.innerWidth + 100) {
+				ltr = false;
+			} else if (position < 0 - element.clientWidth - 100) {
+				ltr = true;
+			}
+
+			if (ltr) {
+				newPosition = position + 12;
+			} else {
+				newPosition = position - 12;
+			}
+
+			element.style.left = newPosition + 'px';
+			element.setAttribute('data-position', newPosition);
+		}
+
+		(function loop() {
+			window.requestAnimFrame(loop);
+
+			if (Boolean(window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame)) {
+				step();
+				return;
+			}
+
+			stepFallback()
+		})();
+	</script>
+</body>
+</html>
