@@ -142,7 +142,7 @@
 		// Get all the articles from the DOM
 		var articles = document.querySelectorAll('[data-object-id]');
 		for (var i = 0; i < articles.length; i++) {
-			data.get(articles[i].dataset.objectId);
+			data.get(articles[i].getAttribute('data-object-id'));
 		}
 	</script>
 </body>
