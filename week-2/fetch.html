@@ -6,14 +6,23 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Fetch</title>
 	<style>
-		body {
+		html {
+			font-size: 112.5%;
 			font-size: calc(100% + .25vw);
+			box-sizing: border-box;
+		}
+
+		*, *::before, *::after {
+			box-sizing: inherit;
+		}
+
+		body {
 			font-family: 'Georgia', serif;
 			line-height: 1.45;
 		}
 
 		article {
-			padding: 6vmin 3vmax;
+			padding: 5em 3em;
 		}
 
 		article + article {
@@ -28,7 +37,7 @@
 
 		.error {
 			background-color: hotpink;
-			padding: 2vmin 2vmax;
+			padding: 2.5em 3em;
 		}
 
 		.error span {
