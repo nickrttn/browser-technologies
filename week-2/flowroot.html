@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>The datalist element</title>
+	<style>
+		html {
+			font-size: 112.5%;
+			box-sizing: border-box;
+		}
+
+		*, *::before, *::after {
+			box-sizing: inherit;
+		}
+
+		body {
+			font-family: 'Georgia', serif;
+			line-height: 1.45;
+		}
+
+		article {
+			padding: 5em 3em;
+		}
+
+		h1, p {
+			margin-bottom: 1.5em;
+			margin-top: 0;
+			max-width: 35em;
+		}
+
+		.flow-root {
+			display: flow-root;
+			background: lightgray;
+			padding: .5em;
+		}
+
+		.no-flow-root {
+			margin-top: 1.5em;
+			display: block;
+			background: lightgray;
+			padding: .5em;
+		}
+
+		.clearfix {
+			margin-top: 10em;
+			display: block;
+			background: lightgray;
+			padding: .5em;
+		}
+
+		.clearfix:before,
+		.clearfix:after {
+		    content: " ";
+		    display: table;
+		}
+
+		.clearfix:after {
+		    clear: both;
+		}
+
+		.block {
+			width: 10em;
+			height: 10em;
+			float: left;
+			background-color: azure;
+			margin-right: .5em;
+		}
+
+	</style>
+</head>
+<body>
+
+	<article>
+		<h1><code>display: flow-root;</code></h1>
+		<p>Deze pagina onderzoekt de nieuwe <code>display</code> <span lang="en">property</span> <code>flow-root</code>.</p>
+		<p>Het gebruiken van <code>flow-root</code> op een container zorgt voor een nieuwe <em lang="en">block formatting context</em>. Het bijzondere hieraan is dat alle <span lang="en">child elements</span> van dit blok altijd binnen het blok zullen vallen. Een clearfix-hack is dus niet meer nodig.</p>
+		<p>De support voor <code>flow-root</code> is op dit moment laag. Alleen beta- en dev-versies van Firefox en Chrome ondersteunen het. Voor het bouwen van <code>float</code>-gebaseerde layouts zal een clearfix dus voorlopig nog nodig zijn.</p>
+
+		<div class="flow-root">
+			<div class="block"></div>
+			Dit is een <code>&lt;div&gt;</code> met <code>flow-root</code>.
+		</div>
+
+		<div class="no-flow-root">
+			<div class="block"></div>
+			Dit is een <code>&lt;div&gt;</code> zonder <code>flow-root</code>, zonder clearfix.
+		</div>
+
+		<div class="clearfix">
+			<div class="block"></div>
+			Dit is een <code>&lt;div&gt;</code> zonder <code>flow-root</code>, maar mét clearfix.
+		</div>
+
+		<footer>
+			<h2>Bronnen</h2>
+			<ul>
+				<li><a href="https://css-tricks.com/display-flow-root/">CSS Tricks: <code>flow-root</code></a></li>
+				<li><a href="https://codepen.io/rachelandrew/pen/RKgevX"><code>display: flow-root</code> – Rachel Andrew</a></li>
+				<li><a href="http://caniuse.com/#search=flow-root">Can I use _____?</a></li>
+				<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display">display - CSS | MDN</a></li>
+				<li><a href="http://nicolasgallagher.com/micro-clearfix-hack/">A micro clearfix hack – Nicolas Gallagher</a></li>
+			</ul>
+		</footer>
+	</article>
+
+	<nav>
+		<h2>Main navigation</h2>
+		<h3>HTML</h3>
+		<ul>
+			<li><a href="dialog.html">The <code>&lt;dialog&gt;</code> element.</a></li>
+			<li><a href="datalist.html">The <code>&lt;datalist&gt;</code> element.</a></li>
+		</ul>
+		<h3>CSS</h3>
+		<ul>
+			<li><a href="viewportunits.html">Viewport-relative units</a></li>
+			<li><a href="flowroot.html"><code>display: flow-root;</code></a></li>
+		</ul>
+		<h3>Javascript</h3>
+		<ul>
+			<li><a href="fetch.html">The <code>fetch()</code> API</a></li>
+			<li><a href="requestanimationframe.html"><code>requestAnimationFrame</code></a></li>
+		</ul>
+	</nav>
+</body>
+</html>

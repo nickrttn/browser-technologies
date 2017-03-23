@@ -64,11 +64,38 @@
 		<p>Deze pagina onderzoekt de browser compatibility van <code>requestAnimationFrame</code>, met mogelijke fallbacks.</p>
 		<p>Het logo van de minor wordt van links naar rechts en weer terug over het scherm geanimeerd.</p>
 		<p><code>requestAnimationFrame</code> (en CSS Transforms) werken op > IE9. Als de browser geen <code>requestAnimationFrame</code> ondersteunt, wordt teruggevallen op <code>setTimeout</code>. Daarbij wordt de <code>left</code> CSS attribute dan geanimeerd, in plaats van een <code>transform: translateX();</code>. Het grote nadeel hiervan is dat het een zwaardere animatie is, voor oudere browsers (en waarschijnlijk ook oudere hardware).</p>
+
+		<footer>
+			<h2>Bronnen</h2>
+			<ul>
+				<li><a href="https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/"><code>requestAnimationFrame</code> for smart animating – Paul Irish</a></li>
+				<li><a href="http://caniuse.com/#search=requestanimationframe">Can I use _____?</a></li>
+			</ul>
+		</footer>
 	</article>
 
 	<main>
 		<img data-animate="true" src="images/force.png" alt="The logo of the Web Development Minor of the University of Applied Sciences Amsterdam. Vaguely resembles a Zelda tri-force emblem.">
 	</main>
+
+	<nav>
+		<h2>Main navigation</h2>
+		<h3>HTML</h3>
+		<ul>
+			<li><a href="dialog.html">The <code>&lt;dialog&gt;</code> element.</a></li>
+			<li><a href="datalist.html">The <code>&lt;datalist&gt;</code> element.</a></li>
+		</ul>
+		<h3>CSS</h3>
+		<ul>
+			<li><a href="viewportunits.html">Viewport-relative units</a></li>
+			<li><a href="flowroot.html"><code>display: flow-root;</code></a></li>
+		</ul>
+		<h3>Javascript</h3>
+		<ul>
+			<li><a href="fetch.html">The <code>fetch()</code> API</a></li>
+			<li><a href="requestanimationframe.html"><code>requestAnimationFrame</code></a></li>
+		</ul>
+	</nav>
 
 	<script>
 		// https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -82,10 +109,7 @@
 		element.dataset.position = element.getBoundingClientRect().left;
 		var ltr = true;
 
-		function step() {
-			var newPosition;
-			var position = parseInt(element.dataset.position, 10);
-
+		function calcNext(position) {
 			if (position > window.innerWidth + 100) {
 				ltr = false;
 			} else if (position < 0 - element.clientWidth - 100) {
@@ -98,28 +122,19 @@
 				newPosition = position - 12;
 			}
 
-			element.style.transform = 'translateX(' + newPosition + 'px)';
-			element.dataset.position = newPosition;
+			return newPosition;
+		}
+
+		function step() {
+			var position = parseInt(element.dataset.position, 10);
+			element.style.transform = 'translateX(' + calcNext(position) + 'px)';
+			element.dataset.position = calcNext(position);
 		}
 
 		function stepFallback() {
-			var newPosition;
 			var position = parseInt(element.getAttribute('data-position'), 10);
-
-			if (position > window.innerWidth + 100) {
-				ltr = false;
-			} else if (position < 0 - element.clientWidth - 100) {
-				ltr = true;
-			}
-
-			if (ltr) {
-				newPosition = position + 12;
-			} else {
-				newPosition = position - 12;
-			}
-
-			element.style.left = newPosition + 'px';
-			element.setAttribute('data-position', newPosition);
+			element.style.left = calcNext(position) + 'px';
+			element.setAttribute('data-position', calcNext(position));
 		}
 
 		(function loop() {
