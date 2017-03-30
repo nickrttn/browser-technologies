@@ -4,6 +4,8 @@ The code in this repository tries to solve the following user story.
 
 > I want to play a game of Pong against someone else.
 
+The proof of concept can be found online at [nickrttn.github.io/browser-technologies/week-3/](https://nickrttn.github.io/browser-technologies/week-3/).
+
 ## Core functionality
 
 A player moves the paddle in a device-appropriate way, to be able to play the ball back and forth, until a player scores. The game is restarted after a score.
