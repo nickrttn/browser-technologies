@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>PONG</title>
+	<style>
+		html {
+			box-sizing: border-box;
+		}
+
+		*, *:before, *:after {
+			box-sizing: inherit;
+		}
+
+		body {
+			padding: 0;
+			margin: 0;
+			font-family: Georgia, serif;
+			max-height: 100vh;
+			height: auto;
+			text-align: center;
+		}
+
+		.explanation {
+			text-align: left;
+			max-width: 35em;
+			float: left;
+			padding: 3em;
+		}
+
+		[data-game="pong"] {
+			display: block;
+			box-sizing: padding-box;
+			float: left;
+			padding: 3em;
+			margin: 3em auto 8em;
+			width: 60vm;
+			width: 60vmin;
+		}
+
+		@media screen and (orientation: portrait) {
+			[data-game="pong"] {
+				width: 70vmin;
+				height: auto;
+			}
+		}
+
+		menu {
+			padding: 0;
+			margin: 0;
+			z-index: 2;
+			width: 100%;
+		}
+
+		[data-game="pong"] svg {
+			background-color: dimgray;
+			display: block;
+		}
+
+		[data-direction="left"] {
+			float: left;
+		}
+
+		[data-direction="right"] {
+			float: right;
+		}
+
+		label {
+			display: block;
+			font-family: Consolas, Menlo, monospace;
+			text-transform: uppercase;
+			margin: .5em 0;
+		}
+
+		button,
+		input {
+			font-size: inherit;
+		}
+
+		input[data-controls] {
+			display: block;
+			appearance: none;
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			height: 60px;
+			z-index: 2;
+			opacity: 1;
+			margin: 0.5em 0;
+		}
+
+		input[data-controls] {
+		  -webkit-appearance: none;
+		  width: 100%;
+		}
+
+		input[data-controls]:focus {
+		  outline: none;
+		}
+
+		input[data-controls]::-webkit-slider-runnable-track {
+			height: 60px;
+		  width: 60px;
+		  background: transparent;
+		  cursor: ew-resize;
+			border: 0;
+		}
+
+		input[data-controls]::-webkit-slider-thumb {
+			-webkit-appearance: none;
+		  height: 60px;
+			width: 60px;
+		  background: dimgray;
+		  cursor: ew-resize;
+			border-radius: 0;
+			border: 0;
+		}
+
+		input[data-controls]::-moz-range-track {
+			height: 100%;
+		  width: 100%;
+		  background: transparent;
+		  cursor: ew-resize;
+			border: 0;
+		}
+
+		input[data-controls]::-moz-range-thumb {
+		  height: 100%;
+		  width: 60px;
+		  background: dimgray;
+		  cursor: ew-resize;
+			border-radius: 0;
+			border: 0;
+		}
+
+		input[data-controls]::-ms-track {
+		  width: 100%;
+		  height: 100%;
+		  cursor: ew-resize;
+		  background: transparent;
+			opacity: 0;
+		}
+
+		input[data-controls]::-ms-fill-lower {
+		  background: transparent;
+		  border: 0;
+		  border-radius: 0;
+		  box-shadow: 0;
+		}
+
+		input[data-controls]::-ms-fill-upper {
+		  background: transparent;
+		  border: 0;
+		  border-radius: 0;
+		  box-shadow: 0;
+		}
+
+		input[data-controls]::-ms-thumb {
+		  box-shadow: 0;
+		  border: 0;
+		  height: 100%;
+		  width: 60px;
+		  background: dimgray;
+		  cursor: ew-resize;
+		}
+
+		input[data-controls]::-ms-tooltip {
+		  display: none;
+		}
+
+		input[data-controls]:focus::-ms-fill-lower {
+		  background: transparent;
+		}
+
+		input[data-controls]:focus::-ms-fill-upper {
+		  background: transparent;
+		}
+
+		[data-actor="player1"],
+		[data-actor="player2"] {
+			min-height: 4px;
+			transform: translateX(-30px);
+		}
+ 	</style>
+</head>
+<body>
+	<section class="explanation">
+		<h1>PONG</h1>
+		<p>You can control the paddles using the mouse or your hand, by clicking and dragging the grey blocks back and forth. You can also use buttons to control the paddles.</p>
+		<p>Disclaimer: the cat killed the ball, sorry.</p>
+		<ul>
+			<li>Player 1
+				<ul>
+					<li>Left: <kbd>Z</kbd></li>
+					<li>Right: <kbd>X</kbd></li>
+				</ul>
+			</li>
+			<li>Player 2
+				<ul>
+					<li>Left: <kbd>&larr;</kbd></li>
+					<li>Right: <kbd>&rarr;</kbd></li>
+				</ul>
+			</li>
+		</ul>
+	</section>
+	<section data-game="pong">
+		<menu class="controls">
+			<button data-controls="player1" data-direction="left"><kbd>Z</kbd> Left</button>
+			<button data-controls="player1" data-direction="right">Right <kbd>X</kbd></button>
+
+			<div data-supports="range">
+				<label for="player1">Player 1</label>
+				<input id="player1" type="range" min="0" max="700" value="300" data-controls="player1" aria-controls="player1-paddle">
+			</div>
+		</menu>
+
+		<svg version="1.1" viewBox="0 0 700 1000" preserveAspectRatio="xMidYMid meet">
+			<rect class="centerline" width="700" height="4" x="0" y="50%" fill="lightgrey"></rect>
+			<circle cx="350" cy="500" r="1%" fill="white" data-actor="ball"></circle>
+			<rect id="player1-paddle" x="300" y="2%" height="1%" width="60" class="paddle" data-actor="player1" fill="white"></rect>
+			<rect id="player2-paddle" x="300" y="98%" height="1%" width="60" class="paddle" data-actor="player2" fill="white"></rect>
+		</svg>
+
+		<menu class="controls">
+			<div data-supports="range">
+				<input id="player2" type="range" min="0" max="700" value="300" data-controls="player2" aria-controls="player2-paddle">
+				<label for="player2">Player 2</label>
+			</div>
+
+			<button data-controls="player2" data-direction="left"><kbd>&larr;</kbd> Left</button>
+			<button data-controls="player2" data-direction="right">Right <kbd>&rarr;</kbd></button>
+		</menu>
+	</section>
+
+	<script>
+		var pong = {
+			'moving': {
+				'player1': false,
+				'player2': false
+			},
+			'supportsRangeInput': function() {
+				var node = document.querySelector('input[data-controls]');
+				return node.type === 'range';
+			},
+			'init': function() {
+				this.game = document.querySelector('svg');
+
+				this.bindKeys();
+
+				if (this.supportsRangeInput()) {
+					this.controls = document.querySelectorAll('input[data-controls]');
+					this.bindInput();
+				} else {
+					this.controls = document.querySelectorAll('button[data-controls]');
+					this.bindButtons();
+				}
+
+				this.ball = document.querySelector('[data-actor="ball"]');
+				this.players = {
+					'player1' : document.querySelector('[data-actor="player1"]'),
+					'player2' : document.querySelector('[data-actor="player2"]')
+				};
+			},
+			'bindKeys': function() {
+				window.addEventListener('keydown', function(event) {
+					switch (event.keyCode) {
+						case 37: this.movePaddleBy('player2', -12); break; // Left
+						case 39: this.movePaddleBy('player2', 12); break; // Right
+						case 90: this.movePaddleBy('player1', -12); break; // Z
+						case 88: this.movePaddleBy('player1', 12); break; // X
+						default: break;
+					}
+				}.bind(this), {'passive': true});
+
+				window.addEventListener('keyup', function(event) {
+					switch (event.keyCode) {
+						case 37: this.stopMovingPaddle('player2'); break; // Left
+						case 39: this.stopMovingPaddle('player2'); break; // Right
+						case 90: this.stopMovingPaddle('player1'); break; // Z
+						case 88: this.stopMovingPaddle('player1'); break; // X
+						default: break;
+					}
+				}.bind(this), {'passive': true});
+			},
+			'bindButtons': function() {
+				for (var i = 0; i < this.controls.length; i++) {
+					this.controls[i].addEventListener('mousedown', function(event) {
+						switch (event.target.getAttribute('data-direction')) {
+							case 'left': this.movePaddleBy(event.target.getAttribute('data-controls'), -12); break;
+							case 'right': this.movePaddleBy(event.target.getAttribute('data-controls'), 12); break;
+							default: break;
+						}
+					}.bind(this));
+
+					this.controls[i].addEventListener('mouseup', function(event) {
+						this.stopMovingPaddle(event.target.getAttribute('data-controls'));
+					}.bind(this));
+				}
+
+				var inputs = document.querySelectorAll('input[data-controls]');
+				for (var i = 0; i < inputs.length; i++) {
+					inputs[i].style.display = 'none';
+				}
+			},
+			'bindInput': function() {
+				for (var i = 0; i < this.controls.length; i++) {
+					this.controls[i].addEventListener('change', function(event) {
+						this.movePaddle(event.target.getAttribute('data-controls'), event.target.value);
+					}.bind(this));
+
+					this.controls[i].addEventListener('input', function(event) {
+						this.movePaddle(event.target.getAttribute('data-controls'), event.target.value);
+					}.bind(this));
+				}
+
+				var buttons = document.querySelectorAll('button[data-controls]');
+				for (var i = 0; i < buttons.length; i++) {
+					buttons[i].style.display = 'none';
+				}
+			},
+			'movePaddle': function(actor, position) {
+				this.players[actor].setAttribute('x', position);
+			},
+			'movePaddleBy': function(actor, value) {
+				if (this.moving[actor]) {
+					return;
+				} else {
+					this.moving[actor] = true;
+
+					function move() {
+						var currentPosition = parseInt(this.players[actor].getAttribute('x'));
+						var nextPosition = currentPosition + value;
+
+						if (nextPosition < 0 || nextPosition > 700) {
+							return;
+						}
+
+						this.movePaddle(actor, nextPosition);
+
+						if (this.moving[actor]) {
+							this.rAF()(move.bind(this));
+						}
+					}
+
+					this.rAF()(move.bind(this));
+				}
+			},
+			'stopMovingPaddle': function(actor) {
+				this.moving[actor] = false;
+			},
+			'rAF': function() {
+				return window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+			}
+		}
+
+		pong.init();
+
+		// Sources
+		// https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+	</script>
+</body>
+</html>
